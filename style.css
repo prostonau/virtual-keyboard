@@ -4,20 +4,14 @@
 }
 
 .keyboard {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    padding: 5px 0;
-    background: #004134;
+    /* position: fixed; */      
+    width: 1200px;
+    margin: 25px auto;
+    background: #1f1d20;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
     user-select: none;
     transition: bottom 0.4s;
 }
-
-/* .keyboard--hidden {
-    bottom: -100%;
-} */
 
 .keyboard__keys {
     text-align: center;
@@ -25,7 +19,7 @@
 
 .keyboard__key {
     height: 45px;
-    width: 6%;
+    width: 80px;
     max-width: 90px;
     margin: 3px;
     border-radius: 4px;
@@ -89,9 +83,22 @@
 
 .spechial-button {
     background-color: brown;
-}
+    font-weight: 650;
+}    
 
 .active {
     background-color: #08ff00;
     transition: 1s;
+}
+
+.backspace-key{
+    min-width: 167px;
+}
+
+.capslock-key{
+    min-width: 167px;
+}
+
+.enter-key{
+    min-width: 167px;
 }

@@ -62,8 +62,8 @@ class Keyboard {
             "`","1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
             "Tab","q", "w", "e", "r", "t", "y", "u", "i", "o", "p","[","]",
             "capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
-            "left shift", "z", "x", "c", "v", "b", "n", "m", ",", ".","/","up","right shift",
-            "leftctrl","win","leftalt","space","rightalt","left","down","right","rightctrl"
+            "lshift", "z", "x", "c", "v", "b", "n", "m", ",", ".","/","▲","rshift",
+            "lctrl","win","leftalt","space","rightalt","rctrl","◄","▼","►"
         ];
 
         // Creates HTML for an icon
@@ -73,16 +73,15 @@ class Keyboard {
 
         keyLayout.forEach(key => {
             const keyElement = document.createElement("button");
-            const insertLineBreak = ["backspace", "]", "enter", "right shift", "rightctrl"].indexOf(key) !== -1;
+            const insertLineBreak = ["backspace", "]", "enter", "rshift", "►"].indexOf(key) !== -1;
 
             // Add attributes/classes
             keyElement.setAttribute("type", "button");
             keyElement.classList.add("keyboard__key");
 
             switch (key) {
-                case "backspace":
-                    keyElement.classList.add("keyboard__key--wide");                    
-                    keyElement.innerHTML = createIconHTML("Backspace");
+                case "backspace":                                     
+                    keyElement.textContent = key.toLowerCase(); 
                     keyElement.classList.add('backspace-key')
                     keyElement.classList.add("spechial-button");
 
@@ -94,27 +93,30 @@ class Keyboard {
 
                     break;
 
-                // case "caps":
-                //     keyElement.classList.add("keyboard__key--wide", "keyboard__key--activatable");
-                //     keyElement.innerHTML = createIconHTML("keyboard_capslock");
+                case "capslock":
+                    keyElement.classList.add("capslock-key");
+                    keyElement.classList.add("spechial-button");
+                    keyElement.textContent = key.toLowerCase();                                     
 
-                //     keyElement.addEventListener("click", () => {
-                //         this._toggleCapsLock();
-                //         keyElement.classList.toggle("keyboard__key--active", this.properties.capsLock);
-                //     });
+                    keyElement.addEventListener("click", () => {                        
+                        keyElement.classList.toggle('active')
+                        this.toggleCapsLock();  
+                        //keyElement.classList.contains('active') ? this.capsLock = true : this.capsLock = false
+                    });
 
-                //     break;
+                    break;
 
-                // case "enter":
-                //     keyElement.classList.add("keyboard__key--wide");
-                //     keyElement.innerHTML = createIconHTML("keyboard_return");
+                case "enter":
+                    keyElement.classList.add("enter-key");
+                    keyElement.classList.add("spechial-button");
+                    keyElement.textContent = key.toLowerCase();                    
 
-                //     keyElement.addEventListener("click", () => {
-                //         this.properties.value += "\n";
-                //         this._triggerEvent("oninput");
-                //     });
+                    // keyElement.addEventListener("click", () => {
+                    //     this.properties.value += "\n";
+                    //     this._triggerEvent("oninput");
+                    // });
 
-                //     break;
+                    break;
 
                 // case "space":
                 //     keyElement.classList.add("keyboard__key--extra-wide");
@@ -141,8 +143,10 @@ class Keyboard {
                 default:
                     keyElement.textContent = key.toLowerCase();
 
-                    keyElement.addEventListener("click", () => {
-                        textContainer.innerHTML += textContainer.innerHTML.capsLock ? key.toUpperCase() : key.toLowerCase();
+                    keyElement.addEventListener("click", () => {                       
+                        let newElem = this.capsLock ? key.toUpperCase() : key.toLowerCase()
+                        console.log("newElem",newElem)
+                        textContainer.innerHTML +=  newElem;
                         keyElement.classList.toggle('active')
                         setTimeout(() => {keyElement.classList.toggle('active')}, "300");                     
                     });
@@ -165,6 +169,8 @@ class Keyboard {
 
         let keys = document.querySelectorAll('.keyboard__key');
         let backspaceKey = document.querySelector('.backspace-key');
+        let capslockKey = document.querySelector('.capslock-key');
+        let enter = document.querySelector('.enter_key');
         //let spaceKey = document.querySelector('.space_key');
         // let shift_left = document.querySelector('.shift_left');
         // let shift_right = document.querySelector('.shift_right');
@@ -249,11 +255,16 @@ class Keyboard {
     }
 
     toggleCapsLock() {
-        this.properties.capsLock = !this.properties.capsLock;
+        this.capsLock = !this.capsLock;
 
         for (const key of this.elements.keys) {
             if (key.childElementCount === 0) {
-                key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+                if (this.capsLock && key.textContent.length == 1 ) {
+                    key.textContent = key.textContent.toUpperCase()
+                }
+                else {
+                    key.textContent = key.textContent.toLowerCase();
+                }              
             }
         }
     }
