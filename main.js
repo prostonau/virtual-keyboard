@@ -87,7 +87,7 @@ class Keyboard {
                     keyElement.classList.add("spechial-button");
 
                     keyElement.addEventListener("click", () => {
-                        textContainer.innerHTML = textContainer.innerHTML.substring(0, textContainer.innerHTML.length - 1);
+                        textContainer.value = textContainer.value.substring(0, textContainer.value.length - 1);
                         keyElement.classList.toggle('active')
                         setTimeout(() => {keyElement.classList.toggle('active')}, "300");                          
                     });                      
@@ -100,9 +100,9 @@ class Keyboard {
                     keyElement.classList.add("spechial-button");
 
                     keyElement.addEventListener("click", () => {
-                        // textContainer.innerHTML = textContainer.innerHTML.substring(0, textContainer.innerHTML.length - 1);
-                        // keyElement.classList.toggle('active')
-                        // setTimeout(() => {keyElement.classList.toggle('active')}, "300");                          
+                        textContainer.value += "\t";
+                        keyElement.classList.toggle('active')
+                        setTimeout(() => {keyElement.classList.toggle('active')}, "300");                        
                     });                      
 
                     break;
@@ -125,27 +125,75 @@ class Keyboard {
                     keyElement.classList.add("spechial-button");
                     keyElement.textContent = key.toLowerCase();                    
 
-                    // keyElement.addEventListener("click", () => {
-                    //     this.properties.value += "\n";
-                    //     this._triggerEvent("oninput");
-                    // });
+                    keyElement.addEventListener("click", () => {
+                        textContainer.value += "\n";
+                        keyElement.classList.toggle('active')
+                        setTimeout(() => {keyElement.classList.toggle('active')}, "300");  
+                    });
+
+                    break;
+                
+                case "lshift":
+                    keyElement.classList.add("shift-left");
+                    keyElement.classList.add("spechial-button");
+                    keyElement.textContent = "shift";                    
+                    keyElement.addEventListener("click", () => {
+                        keyElement.classList.toggle('active')
+                        setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                    });
 
                     break;
 
-                // case "space":
-                //     keyElement.classList.add("keyboard__key--extra-wide");
-                //     keyElement.innerHTML = createIconHTML("space_bar");
+                case "rshift":
+                    keyElement.classList.add("shift-right");
+                    keyElement.classList.add("spechial-button");
+                    keyElement.textContent = "shift";                    
+                    keyElement.addEventListener("click", () => {
+                        keyElement.classList.toggle('active')
+                        setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                    });
 
-                //     keyElement.addEventListener("click", () => {
-                //         this.properties.value += " ";
-                //         this._triggerEvent("oninput");
-                //     });
+                    break;
 
-                //     break;
+                    case "lctrl":
+                        keyElement.classList.add("ctrl-left");
+                        keyElement.classList.add("spechial-button");
+                        keyElement.textContent = "ctrl";                    
+                        keyElement.addEventListener("click", () => {
+                            keyElement.classList.toggle('active')
+                            setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                        });
+    
+                        break;
+    
+                    case "rctrl":
+                        keyElement.classList.add("ctrl-right");
+                        keyElement.classList.add("spechial-button");
+                        keyElement.textContent = "ctrl";                    
+                        keyElement.addEventListener("click", () => {
+                            keyElement.classList.toggle('active')
+                            setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                        });
+    
+                        break;
+
+
+                case "space":
+                    keyElement.classList.add("space-key");
+                    keyElement.classList.add("spechial-button"); 
+                    keyElement.textContent = "space";                  
+
+                    keyElement.addEventListener("click", () => {
+                        textContainer.value += " ";
+                        keyElement.classList.toggle('active')
+                        setTimeout(() => {keyElement.classList.toggle('active')}, "300");  
+                    });
+
+                    break;
 
                 // case "done":
                 //     keyElement.classList.add("keyboard__key--wide", "keyboard__key--dark");
-                //     keyElement.innerHTML = createIconHTML("check_circle");
+                //     keyElement.value = createIconHTML("check_circle");
 
                 //     keyElement.addEventListener("click", () => {
                 //         this.close();
@@ -160,7 +208,7 @@ class Keyboard {
                     keyElement.addEventListener("click", () => {                       
                         let newElem = this.capsLock ? key.toUpperCase() : key.toLowerCase()
                         console.log("newElem",newElem)
-                        textContainer.innerHTML +=  newElem;
+                        textContainer.value +=  newElem;
                         keyElement.classList.toggle('active')
                         setTimeout(() => {keyElement.classList.toggle('active')}, "300");                     
                     });
@@ -185,23 +233,22 @@ class Keyboard {
         let tabKey = document.querySelector('.tab-key');
         let backspaceKey = document.querySelector('.backspace-key');
         let capslockKey = document.querySelector('.capslock-key');
-        let enter = document.querySelector('.enter_key');
-        //let spaceKey = document.querySelector('.space_key');
-        // let shift_left = document.querySelector('.shift_left');
-        // let shift_right = document.querySelector('.shift_right');
-        // let caps_lock_key = document.querySelector('.caps_lock_key');
-        // let toggle_circle = document.querySelector('.toggle_circle');
-        // let text_input = document.querySelector('.text');
-        // let change_color = document.querySelector('.change_light_color');
-        // let colors_input = document.querySelector('.colors_input');
-        // let keyboard_lights = document.querySelector('.keyboard_lights');
-        // let keyboard_wrapp = document.querySelector('.keyboard_wrapp');
+        let enterKey = document.querySelector('.enter-key');
+        let shiftLeft = document.querySelector('.shift-left');
+        let shiftRight = document.querySelector('.shift-right');
+        let ctrlLeft = document.querySelector('.ctrl-left');
+        let ctrlRight = document.querySelector('.ctrl-right');
+        
+   
+
+        let spaceKey = document.querySelector('.space-key');
 
         console.log("keys",keys)
 
         for(let i = 0; i < keys.length; i++) {
             keys[i].setAttribute('keyname', keys[i].innerText);
             keys[i].setAttribute('lowerCaseName', keys[i].innerText.toLowerCase());
+            keys[i].setAttribute('upperCaseName', keys[i].innerText.toUpperCase());
         }
 
         window.addEventListener('keydown', function(e) {
@@ -210,24 +257,30 @@ class Keyboard {
            
 
             for(let i = 0; i < keys.length; i++) {       
-                if(e.key == keys[i].getAttribute('keyname') || e.key == keys[i].getAttribute('lowerCaseName')) {
+                if((e.key == keys[i].getAttribute('keyname') || e.key == keys[i].getAttribute('lowerCaseName')) && !this.capsLock) {
                     keys[i].classList.toggle('active')
                     console.log('')
-                    textContainer.innerHTML += e.key.toLowerCase();  
+                    textContainer.value += e.key.toLowerCase();
+                    break;  
+                }
+                if(e.key == keys[i].getAttribute('keyname') || e.key == keys[i].getAttribute('upperCaseName')) {
+                    keys[i].classList.toggle('active')
+                    console.log('e.key.toUpperCase() = ', e.key.toUpperCase())
+                    textContainer.value += e.key.toUpperCase();
+                    break;  
                 }
                 if(e.code == 'Backspace') { //'Backspace'
                     console.log("tut")
                     console.log("backspaceKey",backspaceKey)
-                    // console.log("keys[i]", keys[i])
                     backspaceKey.classList.toggle('active')
-                    textContainer.innerHTML = textContainer.innerHTML.substring(0, textContainer.innerHTML.length - 1); 
+                    textContainer.value = textContainer.value.substring(0, textContainer.value.length - 1); 
                     break;
                 }
                 if(e.code == 'Tab') { //'Backspace'
                     console.log("tab")                    
                     // console.log("keys[i]", keys[i])
                     tabKey.classList.toggle('active')
-                    //textContainer.innerHTML = textContainer.innerHTML.substring(0, textContainer.innerHTML.length - 1); 
+                    textContainer.value += '\t';
                     break;
                 }
                 if(e.code == 'CapsLock') {
@@ -235,39 +288,94 @@ class Keyboard {
                     context.toggleCapsLock();    
                     break;                                  
                 }
-                // if(e.code == 'Space') {
-                //     spaceKey.classList.add('active')
-                // }
-                // if(e.code == 'ShiftLeft') {
-                //     shift_right.classList.remove('active')
-                // }
-                // if(e.code == 'ShiftRight') {
-                //     shift_left.classList.remove('active')
-                // }
+                if(e.code == 'Enter') { //'Backspace'
+                    console.log("enter")                    
+                    // console.log("keys[i]", keys[i])
+                    enterKey.classList.toggle('active')
+                    textContainer.value += '\t';
+                    break;
+                }
+                if(e.code == 'ShiftLeft') {
+                    shiftLeft.classList.toggle('active');                    
+                    break;                                  
+                }
+                if(e.code == 'ShiftRight') {
+                    shiftRight.classList.toggle('active');                    
+                    break;                                  
+                }
+                if(e.code == 'ControlLeft') {
+                    ctrlLeft.classList.toggle('active');                    
+                    break;                                  
+                }
+                if(e.code == 'ControlRight') {
+                    ctrlRight.classList.toggle('active');                    
+                    break;                                  
+                }
+
+
+
+                if(e.code == 'Space') {
+                    spaceKey.classList.add('active')
+                    textContainer.value += ' ';
+                    break;
+                }
+               
           
             }
         })
 
         window.addEventListener('keyup', function(e) {
             for(let i = 0; i < keys.length; i++) {
-                if(e.key == keys[i].getAttribute('keyname' ) || e.key == keys[i].getAttribute('lowerCaseName')) {
-                    keys[i].classList.toggle('active')                    
+                if((e.key == keys[i].getAttribute('keyname' ) || e.key == keys[i].getAttribute('lowerCaseName')) && !this.capsLock) {
+                    keys[i].classList.toggle('active')
+                     break;                    
+                }
+                 if(e.key == keys[i].getAttribute('keyname') || e.key == keys[i].getAttribute('upperCaseName')) {
+                    keys[i].classList.toggle('active')
+                    break;  
                 }
                 if(e.code == 'Backspace') {                    
-                    backspaceKey.classList.toggle('active')                    
+                    //backspaceKey.classList.toggle('active')
+                     if (backspaceKey.classList.contains('active'))  backspaceKey.classList.remove('active')                       
                 }
-                // if(e.code == 'Space') {
-                //     spaceKey.classList.remove('active');
-                //     spaceKey.classList.add('remove');
-                // }
-                // if(e.code == 'ShiftLeft') {
-                //     shift_right.classList.remove('active')
-                //     shift_right.classList.remove('remove')
-                // }
-                // if(e.code == 'ShiftRight') {
-                //     shift_left.classList.remove('active')
-                //     shift_left.classList.remove('remove')
-                // }               
+                if(e.code == 'Tab') { //'Backspace'                   
+                    //tabKey.classList.toggle('active')                    
+                    if (tabKey.classList.contains('active'))  tabKey.classList.remove('active') 
+                    break;
+                }
+                if(e.code == 'Enter') { //'Backspace'
+                    console.log("enter")                                        
+                    //enterKey.classList.toggle('active')
+                    if (enterKey.classList.contains('active'))  enterKey.classList.remove('active')   
+                    break;
+                }
+                if(e.code == 'ShiftLeft') {
+                    //shiftLeft.classList.toggle('active');                    
+                    if (shiftLeft.classList.contains('active'))  shiftLeft.classList.remove('active')   
+                    break;                                  
+                }
+                if(e.code == 'ShiftRight') {
+                    //shiftLeft.classList.toggle('active');                    
+                    if (shiftRight.classList.contains('active'))  shiftRight.classList.remove('active')   
+                    break;                                  
+                }
+                if(e.code == 'ControlLeft') {
+                    //shiftLeft.classList.toggle('active');                    
+                    if (ctrlLeft.classList.contains('active'))  ctrlLeft.classList.remove('active')   
+                    break;                                  
+                }
+                if(e.code == 'ControlRight') {
+                    //shiftLeft.classList.toggle('active');                    
+                    if (ctrlRight.classList.contains('active'))  ctrlRight.classList.remove('active')   
+                    break;                                  
+                }
+
+
+                if(e.code == 'Space') {
+                    if (spaceKey.classList.contains('active'))  spaceKey.classList.remove('active')   
+                    break;                       
+                }                
+                         
             }
         })
     }  

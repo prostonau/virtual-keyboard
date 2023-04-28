@@ -102,3 +102,23 @@
 .enter-key{
     min-width: 167px;
 }
+
+.shift-left{
+    min-width: 80px;
+}
+
+.shift-right{
+    min-width: 80px;
+}
+
+.space-key{
+    min-width: 424px;
+}
+
+.ctrl-left{
+    min-width: 80px;
+}
+
+.ctrl-right{
+    min-width: 80px;
+}
