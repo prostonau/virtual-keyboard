@@ -64,7 +64,7 @@ class Keyboard {
             "tab","q", "w", "e", "r", "t", "y", "u", "i", "o", "p","[","]",
             "capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
             "lshift", "z", "x", "c", "v", "b", "n", "m", ",", ".","/","▲","rshift",
-            "lctrl","win","leftalt","space","rightalt","rctrl","◄","▼","►"
+            "lctrl","win","lalt","space","ralt","rctrl","◄","▼","►"
         ];
 
         // Creates HTML for an icon
@@ -176,6 +176,28 @@ class Keyboard {
                         });
     
                         break;
+                    
+                        case "lalt":
+                        keyElement.classList.add("alt-left");
+                        keyElement.classList.add("spechial-button");
+                        keyElement.textContent = "alt";                    
+                        keyElement.addEventListener("click", () => {
+                            keyElement.classList.toggle('active')
+                            setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                        });
+    
+                        break;
+    
+                        case "ralt":
+                            keyElement.classList.add("alt-right");
+                            keyElement.classList.add("spechial-button");
+                            keyElement.textContent = "alt";                    
+                            keyElement.addEventListener("click", () => {
+                                keyElement.classList.toggle('active')
+                                setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                            });
+        
+                            break;
 
 
                 case "space":
@@ -238,8 +260,8 @@ class Keyboard {
         let shiftRight = document.querySelector('.shift-right');
         let ctrlLeft = document.querySelector('.ctrl-left');
         let ctrlRight = document.querySelector('.ctrl-right');
-        
-   
+        let altLeft = document.querySelector('.alt-left');
+        let altRight = document.querySelector('.alt-right');
 
         let spaceKey = document.querySelector('.space-key');
 
@@ -311,6 +333,14 @@ class Keyboard {
                     ctrlRight.classList.toggle('active');                    
                     break;                                  
                 }
+                if(e.code == 'AltLeft') {
+                    altLeft.classList.toggle('active');                    
+                    break;                                  
+                }
+                if(e.code == 'AltRight') {
+                    altRight.classList.toggle('active');                    
+                    break;                                  
+                }
 
 
 
@@ -369,13 +399,20 @@ class Keyboard {
                     if (ctrlRight.classList.contains('active'))  ctrlRight.classList.remove('active')   
                     break;                                  
                 }
-
-
+                if(e.code == 'AltLeft') {
+                    //shiftLeft.classList.toggle('active');                    
+                    if (altLeft.classList.contains('active'))  altLeft.classList.remove('active')   
+                    break;                                  
+                }
+                if(e.code == 'AltRight') {
+                    //shiftLeft.classList.toggle('active');                    
+                    if (altRight.classList.contains('active'))  altRight.classList.remove('active')   
+                    break;                                  
+                }  
                 if(e.code == 'Space') {
                     if (spaceKey.classList.contains('active'))  spaceKey.classList.remove('active')   
                     break;                       
-                }                
-                         
+                }        
             }
         })
     }  
@@ -402,8 +439,3 @@ window.addEventListener("DOMContentLoaded", function () {
   virtualKeyboard.init()
   virtualKeyboard.listenKeys()
 });
-
-
-
-
-
