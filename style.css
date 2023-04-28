@@ -96,11 +96,11 @@
 }
 
 .capslock-key{
-    min-width: 167px;
+    min-width: 80px;
 }
 
 .enter-key{
-    min-width: 167px;
+    min-width: 80px;
 }
 
 .shift-left{
@@ -128,5 +128,9 @@
 }
 
 .alt-right{
+    min-width: 80px;
+}
+
+.win-key{
     min-width: 80px;
 }

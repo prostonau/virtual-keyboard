@@ -62,7 +62,7 @@ class Keyboard {
         const keyLayout = [
             "`","1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
             "tab","q", "w", "e", "r", "t", "y", "u", "i", "o", "p","[","]",
-            "capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
+            "capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l",";","'","enter",
             "lshift", "z", "x", "c", "v", "b", "n", "m", ",", ".","/","▲","rshift",
             "lctrl","win","lalt","space","ralt","rctrl","◄","▼","►"
         ];
@@ -199,6 +199,17 @@ class Keyboard {
         
                             break;
 
+                        case "win":
+                            keyElement.classList.add("win-key");
+                            keyElement.classList.add("spechial-button");
+                            keyElement.textContent = "win";                    
+                            keyElement.addEventListener("click", () => {
+                                keyElement.classList.toggle('active')
+                                setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                            });
+        
+                            break;
+
 
                 case "space":
                     keyElement.classList.add("space-key");
@@ -262,6 +273,7 @@ class Keyboard {
         let ctrlRight = document.querySelector('.ctrl-right');
         let altLeft = document.querySelector('.alt-left');
         let altRight = document.querySelector('.alt-right');
+        let win = document.querySelector('.win-key');
 
         let spaceKey = document.querySelector('.space-key');
 
@@ -341,6 +353,10 @@ class Keyboard {
                     altRight.classList.toggle('active');                    
                     break;                                  
                 }
+                if(e.code == 'MetaLeft') {
+                    win.classList.toggle('active');                    
+                    break;                                  
+                }
 
 
 
@@ -408,7 +424,11 @@ class Keyboard {
                     //shiftLeft.classList.toggle('active');                    
                     if (altRight.classList.contains('active'))  altRight.classList.remove('active')   
                     break;                                  
-                }  
+                }
+                if(e.code == 'MetaLeft') {
+                    if (win.classList.contains('active'))  win.classList.remove('active')   
+                    break;                                  
+                }   
                 if(e.code == 'Space') {
                     if (spaceKey.classList.contains('active'))  spaceKey.classList.remove('active')   
                     break;                       
