@@ -27,8 +27,9 @@ class Keyboard {
                             main: null,
                             keysContainer: null,
                             keys: []
-                        }
+                        }        
     }
+
 
     init() {
         // Create main elements
@@ -60,7 +61,7 @@ class Keyboard {
         const fragment = document.createDocumentFragment();
         const keyLayout = [
             "`","1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
-            "Tab","q", "w", "e", "r", "t", "y", "u", "i", "o", "p","[","]",
+            "tab","q", "w", "e", "r", "t", "y", "u", "i", "o", "p","[","]",
             "capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
             "lshift", "z", "x", "c", "v", "b", "n", "m", ",", ".","/","▲","rshift",
             "lctrl","win","leftalt","space","rightalt","rctrl","◄","▼","►"
@@ -89,6 +90,19 @@ class Keyboard {
                         textContainer.innerHTML = textContainer.innerHTML.substring(0, textContainer.innerHTML.length - 1);
                         keyElement.classList.toggle('active')
                         setTimeout(() => {keyElement.classList.toggle('active')}, "300");                          
+                    });                      
+
+                    break;
+
+                case "tab":                                     
+                    keyElement.textContent = key.toLowerCase(); 
+                    keyElement.classList.add('tab-key')
+                    keyElement.classList.add("spechial-button");
+
+                    keyElement.addEventListener("click", () => {
+                        // textContainer.innerHTML = textContainer.innerHTML.substring(0, textContainer.innerHTML.length - 1);
+                        // keyElement.classList.toggle('active')
+                        // setTimeout(() => {keyElement.classList.toggle('active')}, "300");                          
                     });                      
 
                     break;
@@ -165,9 +179,10 @@ class Keyboard {
     }
 
 
-    listenKeys(){        
+    listenKeys(context = this){        
 
         let keys = document.querySelectorAll('.keyboard__key');
+        let tabKey = document.querySelector('.tab-key');
         let backspaceKey = document.querySelector('.backspace-key');
         let capslockKey = document.querySelector('.capslock-key');
         let enter = document.querySelector('.enter_key');
@@ -208,6 +223,18 @@ class Keyboard {
                     textContainer.innerHTML = textContainer.innerHTML.substring(0, textContainer.innerHTML.length - 1); 
                     break;
                 }
+                if(e.code == 'Tab') { //'Backspace'
+                    console.log("tab")                    
+                    // console.log("keys[i]", keys[i])
+                    tabKey.classList.toggle('active')
+                    //textContainer.innerHTML = textContainer.innerHTML.substring(0, textContainer.innerHTML.length - 1); 
+                    break;
+                }
+                if(e.code == 'CapsLock') {
+                    capslockKey.classList.toggle('active');
+                    context.toggleCapsLock();    
+                    break;                                  
+                }
                 // if(e.code == 'Space') {
                 //     spaceKey.classList.add('active')
                 // }
@@ -217,9 +244,7 @@ class Keyboard {
                 // if(e.code == 'ShiftRight') {
                 //     shift_left.classList.remove('active')
                 // }
-                // if(e.code == 'CapsLock') {
-                //     caps_lock_key.classList.toggle('active');
-                // }
+          
             }
         })
 
@@ -245,16 +270,9 @@ class Keyboard {
                 // }               
             }
         })
-    }
+    }  
 
-
-    triggerEvent(handlerName) {
-        if (typeof this.eventHandlers[handlerName] == "function") {
-            this.eventHandlers[handlerName](this.properties.value);
-        }
-    }
-
-    toggleCapsLock() {
+    toggleCapsLock (){
         this.capsLock = !this.capsLock;
 
         for (const key of this.elements.keys) {
@@ -268,7 +286,6 @@ class Keyboard {
             }
         }
     }
-   
 }
 
 
@@ -276,7 +293,6 @@ window.addEventListener("DOMContentLoaded", function () {
   let virtualKeyboard = new Keyboard
   virtualKeyboard.init()
   virtualKeyboard.listenKeys()
-  //console.log(virtualKeyboard)
 });
 
 
