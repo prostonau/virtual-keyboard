@@ -4,13 +4,19 @@
 // npm i eslint-config-airbnb
 
 // we use property destructuring =)
-const arr = ['Virtual Keyboard for Windows']
-let [h1text] = arr
+const arr = ['Virtual Keyboard for Windows', 'only one language - english'];
+const [h1text, h4text] = arr;
 
-const h1Title = document.createElement("h1")
-h1Title.classList.add('main-header')
-h1Title.innerHTML = h1text
+const h1Title = document.createElement('h1');
+h1Title.classList.add('main-header');
+h1Title.innerHTML = h1text;
 document.body.appendChild(h1Title);
+
+const h4Title = document.createElement('h4');
+h4Title.classList.add('main-header');
+h4Title.classList.add('italic');
+h4Title.innerHTML = h4text;
+document.body.appendChild(h4Title);
 
 const textContainer = document.createElement("textarea")
 textContainer.classList.add('use-keyboard-input')
@@ -20,9 +26,10 @@ document.body.appendChild(textContainer);
 
 class Keyboard {
 
-    constructor (elements,text,capsLock) {
+    constructor (text,capsLock,shift,elements) {
         this.text = '';
         this.capsLock = false;
+        this.shift = false;
         this.elements = {                           
                             main: null,
                             keysContainer: null,
@@ -64,7 +71,7 @@ class Keyboard {
             "tab","q", "w", "e", "r", "t", "y", "u", "i", "o", "p","[","]",
             "capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l",";","'","enter",
             "lshift", "z", "x", "c", "v", "b", "n", "m", ",", ".","/","▲","rshift",
-            "lctrl","win","lalt","space","ralt","rctrl","◄","▼","►"
+            "lctrl","win","lalt","space","ralt","rctrl","◄","▼","►"  
         ];
 
         // Creates HTML for an icon
@@ -155,60 +162,108 @@ class Keyboard {
 
                     break;
 
-                    case "lctrl":
-                        keyElement.classList.add("ctrl-left");
-                        keyElement.classList.add("spechial-button");
-                        keyElement.textContent = "ctrl";                    
-                        keyElement.addEventListener("click", () => {
-                            keyElement.classList.toggle('active')
-                            setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
-                        });
-    
-                        break;
-    
-                    case "rctrl":
-                        keyElement.classList.add("ctrl-right");
-                        keyElement.classList.add("spechial-button");
-                        keyElement.textContent = "ctrl";                    
-                        keyElement.addEventListener("click", () => {
-                            keyElement.classList.toggle('active')
-                            setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
-                        });
-    
-                        break;
-                    
-                        case "lalt":
-                        keyElement.classList.add("alt-left");
-                        keyElement.classList.add("spechial-button");
-                        keyElement.textContent = "alt";                    
-                        keyElement.addEventListener("click", () => {
-                            keyElement.classList.toggle('active')
-                            setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
-                        });
-    
-                        break;
-    
-                        case "ralt":
-                            keyElement.classList.add("alt-right");
-                            keyElement.classList.add("spechial-button");
-                            keyElement.textContent = "alt";                    
-                            keyElement.addEventListener("click", () => {
-                                keyElement.classList.toggle('active')
-                                setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
-                            });
-        
-                            break;
+                case "lctrl":
+                    keyElement.classList.add("ctrl-left");
+                    keyElement.classList.add("spechial-button");
+                    keyElement.textContent = "ctrl";                    
+                    keyElement.addEventListener("click", () => {
+                        keyElement.classList.toggle('active')
+                        setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                    });
 
-                        case "win":
-                            keyElement.classList.add("win-key");
-                            keyElement.classList.add("spechial-button");
-                            keyElement.textContent = "win";                    
-                            keyElement.addEventListener("click", () => {
-                                keyElement.classList.toggle('active')
-                                setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
-                            });
-        
-                            break;
+                    break;
+
+                case "rctrl":
+                    keyElement.classList.add("ctrl-right");
+                    keyElement.classList.add("spechial-button");
+                    keyElement.textContent = "ctrl";                    
+                    keyElement.addEventListener("click", () => {
+                        keyElement.classList.toggle('active')
+                        setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                    });
+
+                    break;
+                
+                case "lalt":
+                keyElement.classList.add("alt-left");
+                keyElement.classList.add("spechial-button");
+                keyElement.textContent = "alt";                    
+                keyElement.addEventListener("click", () => {
+                    keyElement.classList.toggle('active')
+                    setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                });
+
+                break;
+
+                case "ralt":
+                    keyElement.classList.add("alt-right");
+                    keyElement.classList.add("spechial-button");
+                    keyElement.textContent = "◄";                    
+                    keyElement.addEventListener("click", () => {
+                        keyElement.classList.toggle('active')
+                        setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                    });
+
+                    break;
+
+                case "win":
+                    keyElement.classList.add("win-key");
+                    keyElement.classList.add("spechial-button");
+                    keyElement.textContent = "win";                    
+                    keyElement.addEventListener("click", () => {
+                        keyElement.classList.toggle('active')
+                        setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                    });
+
+                    break;
+
+                case "◄":
+                    keyElement.classList.add("a-left");
+                    keyElement.classList.add("spechial-button");
+                    keyElement.textContent = "◄";                    
+                    keyElement.addEventListener("click", () => {
+                        textContainer.value += "◄"
+                        keyElement.classList.toggle('active')
+                        setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                    });
+
+                    break;
+                   
+                case "►":
+                    keyElement.classList.add("a-right");
+                    keyElement.classList.add("spechial-button");
+                    keyElement.textContent = "►";                    
+                    keyElement.addEventListener("click", () => {
+                        textContainer.value += "►"
+                        keyElement.classList.toggle('active')
+                        setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                    });
+
+                break;
+                    
+                case "▲":
+                    keyElement.classList.add("a-up");
+                    keyElement.classList.add("spechial-button");
+                    keyElement.textContent = "▲";                    
+                    keyElement.addEventListener("click", () => {
+                        textContainer.value += "▲"
+                        keyElement.classList.toggle('active')
+                        setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                    });
+
+                    break;
+
+                case "▼":
+                    keyElement.classList.add("a-down");
+                    keyElement.classList.add("spechial-button");
+                    keyElement.textContent = "▼";                    
+                    keyElement.addEventListener("click", () => {
+                        textContainer.value += "▼"
+                        keyElement.classList.toggle('active')
+                        setTimeout(() => {keyElement.classList.toggle('active')}, "300");                                             
+                    });
+
+                    break;
 
 
                 case "space":
@@ -224,22 +279,19 @@ class Keyboard {
 
                     break;
 
-                // case "done":
-                //     keyElement.classList.add("keyboard__key--wide", "keyboard__key--dark");
-                //     keyElement.value = createIconHTML("check_circle");
-
-                //     keyElement.addEventListener("click", () => {
-                //         this.close();
-                //         this._triggerEvent("onclose");
-                //     });
-
-                //     break;
-
                 default:
                     keyElement.textContent = key.toLowerCase();
 
                     keyElement.addEventListener("click", () => {                       
-                        let newElem = this.capsLock ? key.toUpperCase() : key.toLowerCase()
+                        let newElem = this.capsLock ? key.toUpperCase() : key.toLowerCase()                        
+                        if (this.shift && !this.capsLock) {
+                            newElem = this.shift ? key.toUpperCase() : key.toLowerCase()
+                            newElem = this.convert(newElem)
+                        }
+                        if (this.shift && this.capsLock) {                           
+                            newElem = this.convert(newElem)
+                        }
+
                         console.log("newElem",newElem)
                         textContainer.value +=  newElem;
                         keyElement.classList.toggle('active')
@@ -273,11 +325,15 @@ class Keyboard {
         let ctrlRight = document.querySelector('.ctrl-right');
         let altLeft = document.querySelector('.alt-left');
         let altRight = document.querySelector('.alt-right');
+        let aRight = document.querySelector('.a-right');
+        let aLeft = document.querySelector('.a-left');
+        let aUp = document.querySelector('.a-up');
+        let aDown = document.querySelector('.a-down');
         let win = document.querySelector('.win-key');
 
         let spaceKey = document.querySelector('.space-key');
 
-        console.log("keys",keys)
+        //console.log("keys",keys)
 
         for(let i = 0; i < keys.length; i++) {
             keys[i].setAttribute('keyname', keys[i].innerText);
@@ -286,8 +342,8 @@ class Keyboard {
         }
 
         window.addEventListener('keydown', function(e) {
-            console.log("e",e)
-            console.log(" keys[i].getAttribute('keyname')", keys[0].getAttribute('keyname'))
+            // console.log("e",e)
+            // console.log(" keys[i].getAttribute('keyname')", keys[0].getAttribute('keyname'))
            
 
             for(let i = 0; i < keys.length; i++) {       
@@ -329,8 +385,10 @@ class Keyboard {
                     textContainer.value += '\t';
                     break;
                 }
-                if(e.code == 'ShiftLeft') {
-                    shiftLeft.classList.toggle('active');                    
+                if(e.code == 'ShiftLeft' && !context.shift) {                    
+                    shiftLeft.classList.toggle('active');
+                    context.toggleShift ();  
+                    console.log("tutttt")                  
                     break;                                  
                 }
                 if(e.code == 'ShiftRight') {
@@ -357,9 +415,26 @@ class Keyboard {
                     win.classList.toggle('active');                    
                     break;                                  
                 }
-
-
-
+                if(e.code == 'ArrowLeft') {                     
+                    aLeft.classList.toggle('active')
+                    textContainer.value += '◄';
+                    break;
+                }
+                if(e.code == 'ArrowRight') {                     
+                    aRight.classList.toggle('active')
+                    textContainer.value += '►';
+                    break;
+                }
+                if(e.code == 'ArrowUp') {                     
+                    aUp.classList.toggle('active')
+                    textContainer.value += '▲';
+                    break;
+                }
+                if(e.code == 'ArrowDown') {                     
+                    aDown.classList.toggle('active')
+                    textContainer.value += '▼';
+                    break;
+                }
                 if(e.code == 'Space') {
                     spaceKey.classList.add('active')
                     textContainer.value += ' ';
@@ -395,9 +470,10 @@ class Keyboard {
                     if (enterKey.classList.contains('active'))  enterKey.classList.remove('active')   
                     break;
                 }
-                if(e.code == 'ShiftLeft') {
+                if(e.code == 'ShiftLeft' && context.shift) {
                     //shiftLeft.classList.toggle('active');                    
-                    if (shiftLeft.classList.contains('active'))  shiftLeft.classList.remove('active')   
+                    if (shiftLeft.classList.contains('active'))  shiftLeft.classList.remove('active')
+                    context.toggleShift ();     
                     break;                                  
                 }
                 if(e.code == 'ShiftRight') {
@@ -428,6 +504,22 @@ class Keyboard {
                 if(e.code == 'MetaLeft') {
                     if (win.classList.contains('active'))  win.classList.remove('active')   
                     break;                                  
+                }
+                if(e.code == 'ArrowLeft') {                     
+                    aLeft.classList.toggle('active')                   
+                    break;
+                }
+                if(e.code == 'ArrowRight') {                     
+                    aRight.classList.toggle('active')                    
+                    break;
+                }
+                if(e.code == 'ArrowUp') {                     
+                    aUp.classList.toggle('active')               
+                    break;
+                }
+                if(e.code == 'ArrowDown') {                     
+                    aDown.classList.toggle('active')                    
+                    break;
                 }   
                 if(e.code == 'Space') {
                     if (spaceKey.classList.contains('active'))  spaceKey.classList.remove('active')   
@@ -450,6 +542,38 @@ class Keyboard {
                 }              
             }
         }
+    }
+
+    toggleShift (){
+        this.shift = !this.shift;
+
+        for (const key of this.elements.keys) {           
+                if (this.shift && key.textContent.length == 1 ) {
+                    key.textContent = key.textContent.toUpperCase()
+                }
+                else {
+                    key.textContent = key.textContent.toLowerCase();
+                }
+        }
+
+        for (const key of this.elements.keys) {
+           
+               //console.log("key.textContent,key",key.textContent)
+               if (key.textContent == "`") {key.textContent = "~";}
+               else if (key.textContent == "~") {key.textContent = "`";}
+
+               if (key.textContent == "1") {key.textContent = "!";}
+               else if (key.textContent == "!") {key.textContent = "1";}
+         
+        }
+    }
+
+    convert (key){
+            //console.log("key",key)
+            if (key == "`") {key = "~";}
+            if (key == "1") {key = "!";}
+               
+            return key
     }
 }
 

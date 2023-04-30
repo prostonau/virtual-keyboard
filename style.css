@@ -3,6 +3,10 @@
     justify-content: center;
 }
 
+.italic {
+    font-style: italic;
+}
+
 .keyboard {
     /* position: fixed; */      
     width: 1124px;
