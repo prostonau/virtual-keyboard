@@ -1,9 +1,3 @@
-// https://www.youtube.com/watch?v=7TPJQfBSuJw Eslint setup
-// npm install --save-dev eslint
-// npm i eslint-plugin-import
-// npm i eslint-config-airbnb
-
-// we use property destructuring =)
 const arr = ['Virtual Keyboard for Windows', 'only one language - english'];
 const [h1text, h4text] = arr;
 
@@ -24,7 +18,6 @@ textContainer.textContent = '';
 document.body.appendChild(textContainer);
 
 class Keyboard {
-  // text, capsLock, shift, elements
   constructor() {
     this.text = '';
     this.capsLock = false;
@@ -38,18 +31,15 @@ class Keyboard {
   }
 
   init() {
-    // Create main elements
     this.elements.main = document.createElement('div');
     this.elements.keysContainer = document.createElement('div');
 
-    // Setup main elements
     this.elements.main.classList.add('keyboard');
     this.elements.keysContainer.classList.add('keyboard__keys');
     this.elements.keysContainer.appendChild(this.createKeys());
 
     this.elements.keys = this.elements.keysContainer.querySelectorAll('.keyboard__key');
 
-    // Add to DOM
     this.elements.main.appendChild(this.elements.keysContainer);
     document.body.appendChild(this.elements.main);
   }
@@ -57,18 +47,17 @@ class Keyboard {
   createKeys() {
     const fragment = document.createDocumentFragment();
     const keyLayout = [
-      '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'backspace',
-      'tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']',
+      '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'backspace',
+      'tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\',
       'capslock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'enter',
-      'lshift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ', ', '.', '/', '▲', 'rshift',
+      'lshift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '▲', 'rshift',
       'lctrl', 'win', 'lalt', 'space', 'ralt', 'rctrl', '◄', '▼', '►',
     ];
 
     keyLayout.forEach((key) => {
       const keyElement = document.createElement('button');
-      const insertLineBreak = ['backspace', ']', 'enter', 'rshift', '►'].indexOf(key) !== -1;
+      const insertLineBreak = ['backspace', '\\', 'enter', 'rshift', '►'].indexOf(key) !== -1;
 
-      // Add attributes/classes
       keyElement.setAttribute('type', 'button');
       keyElement.classList.add('keyboard__key');
 
@@ -105,7 +94,6 @@ class Keyboard {
           keyElement.addEventListener('click', () => {
             keyElement.classList.toggle('active');
             this.toggleCapsLock();
-            // keyElement.classList.contains('active') ? this.capsLock =true : this.capsLock = false
           });
           break;
 
@@ -126,9 +114,14 @@ class Keyboard {
           keyElement.classList.add('shift-left');
           keyElement.classList.add('spechial-button');
           keyElement.textContent = 'shift';
-          keyElement.addEventListener('click', () => {
+          keyElement.addEventListener('mousedown', () => {
+            this.toggleShift();
             keyElement.classList.toggle('active');
-            setTimeout(() => { keyElement.classList.toggle('active'); }, '300');
+          });
+
+          keyElement.addEventListener('mouseup', () => {
+            this.toggleShift();
+            keyElement.classList.toggle('active');
           });
 
           break;
@@ -137,9 +130,14 @@ class Keyboard {
           keyElement.classList.add('shift-right');
           keyElement.classList.add('spechial-button');
           keyElement.textContent = 'shift';
-          keyElement.addEventListener('click', () => {
+          keyElement.addEventListener('mousedown', () => {
+            this.toggleShift();
             keyElement.classList.toggle('active');
-            setTimeout(() => { keyElement.classList.toggle('active'); }, '300');
+          });
+
+          keyElement.addEventListener('mouseup', () => {
+            this.toggleShift();
+            keyElement.classList.toggle('active');
           });
 
           break;
@@ -177,7 +175,7 @@ class Keyboard {
         case 'ralt':
           keyElement.classList.add('alt-right');
           keyElement.classList.add('spechial-button');
-          keyElement.textContent = '◄';
+          keyElement.textContent = 'alt';
           keyElement.addEventListener('click', () => {
             keyElement.classList.toggle('active');
             setTimeout(() => { keyElement.classList.toggle('active'); }, '300');
@@ -268,7 +266,6 @@ class Keyboard {
               newElem = this.convert(newElem);
             }
 
-            // console.log('newElem', newElem);
             textContainer.value += newElem;
             keyElement.classList.toggle('active');
             setTimeout(() => { keyElement.classList.toggle('active'); }, '300');
@@ -306,8 +303,6 @@ class Keyboard {
     const win = document.querySelector('.win-key');
     const spaceKey = document.querySelector('.space-key');
 
-    // console.log('keys',keys)
-
     for (let i = 0; i < keys.length; i += 1) {
       keys[i].setAttribute('keyname', keys[i].innerText);
       keys[i].setAttribute('lowerCaseName', keys[i].innerText.toLowerCase());
@@ -315,31 +310,23 @@ class Keyboard {
     }
 
     window.addEventListener('keydown', function (e) {
-      // console.log('e',e)
-      // console.log(' keys[i].getAttribute('keyname')', keys[0].getAttribute('keyname'))
-
       for (let i = 0; i < keys.length; i += 1) {
         if ((e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('lowerCaseName')) && !this.capsLock) {
           keys[i].classList.toggle('active');
-          // console.log('');
           textContainer.value += e.key.toLowerCase();
           break;
         }
         if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName')) {
           keys[i].classList.toggle('active');
-          // console.log('e.key.toUpperCase() = ', e.key.toUpperCase());
           textContainer.value += e.key.toUpperCase();
           break;
         }
-        if (e.code === 'Backspace') { // 'Backspace'
-          // console.log('backspaceKey', backspaceKey);
+        if (e.code === 'Backspace') {
           backspaceKey.classList.toggle('active');
           textContainer.value = textContainer.value.substring(0, textContainer.value.length - 1);
           break;
         }
         if (e.code === 'Tab') {
-          // console.log('tab');
-          // console.log('keys[i]', keys[i])
           tabKey.classList.toggle('active');
           textContainer.value += '\t';
           break;
@@ -350,8 +337,6 @@ class Keyboard {
           break;
         }
         if (e.code === 'Enter') {
-          // console.log('enter');
-          // console.log('keys[i]', keys[i])
           enterKey.classList.toggle('active');
           textContainer.value += '\t';
           break;
@@ -363,6 +348,7 @@ class Keyboard {
         }
         if (e.code === 'ShiftRight') {
           shiftRight.classList.toggle('active');
+          context.toggleShift();
           break;
         }
         if (e.code === 'ControlLeft') {
@@ -424,48 +410,38 @@ class Keyboard {
           break;
         }
         if (e.code === 'Backspace') {
-          // backspaceKey.classList.toggle('active')
           if (backspaceKey.classList.contains('active')) backspaceKey.classList.remove('active');
         }
-        if (e.code === 'Tab') { // 'Backspace'
-          // tabKey.classList.toggle('active')
+        if (e.code === 'Tab') {
           if (tabKey.classList.contains('active')) tabKey.classList.remove('active');
           break;
         }
-        if (e.code === 'Enter') { // 'Backspace'
-          // console.log('enter');
-          // enterKey.classList.toggle('active')
+        if (e.code === 'Enter') {
           if (enterKey.classList.contains('active')) enterKey.classList.remove('active');
           break;
         }
         if (e.code === 'ShiftLeft' && context.shift) {
-          // shiftLeft.classList.toggle('active');
           if (shiftLeft.classList.contains('active')) shiftLeft.classList.remove('active');
           context.toggleShift();
           break;
         }
         if (e.code === 'ShiftRight') {
-          // shiftLeft.classList.toggle('active');
           if (shiftRight.classList.contains('active')) shiftRight.classList.remove('active');
           break;
         }
         if (e.code === 'ControlLeft') {
-          // shiftLeft.classList.toggle('active');
           if (ctrlLeft.classList.contains('active')) ctrlLeft.classList.remove('active');
           break;
         }
         if (e.code === 'ControlRight') {
-          // shiftLeft.classList.toggle('active');
           if (ctrlRight.classList.contains('active')) ctrlRight.classList.remove('active');
           break;
         }
         if (e.code === 'AltLeft') {
-          // shiftLeft.classList.toggle('active');
           if (altLeft.classList.contains('active')) altLeft.classList.remove('active');
           break;
         }
         if (e.code === 'AltRight') {
-          // shiftLeft.classList.toggle('active');
           if (altRight.classList.contains('active')) altRight.classList.remove('active');
           break;
         }
@@ -513,10 +489,26 @@ class Keyboard {
 
   convert(key) {
     this.key = key;
-    // console.log('key',key)
     let temp = key;
     if (temp === '`') { temp = '~'; }
     if (temp === '1') { temp = '!'; }
+    if (temp === '2') { temp = '@'; }
+    if (temp === '3') { temp = '#'; }
+    if (temp === '4') { temp = '$'; }
+    if (temp === '5') { temp = '%'; }
+    if (temp === '6') { temp = ':'; }
+    if (temp === '7') { temp = '?'; }
+    if (temp === '8') { temp = '*'; }
+    if (temp === '9') { temp = '('; }
+    if (temp === '0') { temp = ')'; }
+    if (temp === '-') { temp = '_'; }
+    if (temp === '=') { temp = '+'; }
+    if (temp === '\\') { temp = '|'; }
+    if (temp === ';') { temp = ':'; }
+    if (temp === "'") { temp = '"'; }
+    if (temp === ',') { temp = '<'; }
+    if (temp === '.') { temp = '>'; }
+    if (temp === '/') { temp = '?'; }
 
     return temp;
   }
@@ -533,7 +525,6 @@ class Keyboard {
     }
     /* eslint-disable-next-line */
     for (const key of this.elements.keys) {        
-      // console.log('key.textContent,key',key.textContent)
       if (key.textContent === '`') {
         key.textContent = '~';
       } else if (key.textContent === '~') { key.textContent = '`'; }
@@ -541,6 +532,74 @@ class Keyboard {
       if (key.textContent === '1') {
         key.textContent = '!';
       } else if (key.textContent === '!') { key.textContent = '1'; }
+
+      if (key.textContent === '2') {
+        key.textContent = '@';
+      } else if (key.textContent === '@') { key.textContent = '2'; }
+
+      if (key.textContent === '3') {
+        key.textContent = '#';
+      } else if (key.textContent === '#') { key.textContent = '3'; }
+
+      if (key.textContent === '4') {
+        key.textContent = '$';
+      } else if (key.textContent === '$') { key.textContent = '4'; }
+
+      if (key.textContent === '5') {
+        key.textContent = '%';
+      } else if (key.textContent === '%') { key.textContent = '5'; }
+
+      if (key.textContent === '6') {
+        key.textContent = '^';
+      } else if (key.textContent === '^') { key.textContent = '6'; }
+
+      if (key.textContent === '7') {
+        key.textContent = '&';
+      } else if (key.textContent === '&') { key.textContent = '7'; }
+
+      if (key.textContent === '8') {
+        key.textContent = '*';
+      } else if (key.textContent === '*') { key.textContent = '8'; }
+
+      if (key.textContent === '9') {
+        key.textContent = '(';
+      } else if (key.textContent === '(') { key.textContent = '9'; }
+
+      if (key.textContent === '0') {
+        key.textContent = ')';
+      } else if (key.textContent === ')') { key.textContent = '0'; }
+
+      if (key.textContent === '-') {
+        key.textContent = '_';
+      } else if (key.textContent === '_') { key.textContent = '-'; }
+
+      if (key.textContent === '=') {
+        key.textContent = '+';
+      } else if (key.textContent === '+') { key.textContent = '='; }
+
+      if (key.textContent === '\\') {
+        key.textContent = '|';
+      } else if (key.textContent === '|') { key.textContent = '\\'; }
+
+      if (key.textContent === ';') {
+        key.textContent = ':';
+      } else if (key.textContent === ':') { key.textContent = ';'; }
+
+      if (key.textContent === "'") {
+        key.textContent = '"';
+      } else if (key.textContent === '"') { key.textContent = "'"; }
+
+      if (key.textContent === ',') {
+        key.textContent = '<';
+      } else if (key.textContent === '<') { key.textContent = ','; }
+
+      if (key.textContent === '.') {
+        key.textContent = '>';
+      } else if (key.textContent === '>') { key.textContent = '.'; }
+
+      if (key.textContent === '/') {
+        key.textContent = '?';
+      } else if (key.textContent === '?') { key.textContent = '/'; }
     }
   }
 }

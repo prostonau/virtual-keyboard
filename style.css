@@ -23,7 +23,7 @@
 
 .keyboard__key {
     height: 45px;
-    width: 80px;
+    width: 72px;
     max-width: 90px;
     margin: 3px;
     border-radius: 4px;
@@ -96,31 +96,35 @@
 }
 
 .backspace-key{
-    min-width: 167px;
+    min-width: 100px;
+}
+
+.tab-key{
+    min-width: 100px;
 }
 
 .capslock-key{
-    min-width: 80px;
+    min-width: 125px;
 }
 
 .enter-key{
-    min-width: 80px;
+    min-width: 125px;
 }
 
 .shift-left{
-    min-width: 80px;
+    min-width: 158px;
 }
 
 .shift-right{
-    min-width: 80px;
+    min-width: 88px;
 }
 
 .space-key{
-    min-width: 424px;
+    min-width: 420px;
 }
 
 .ctrl-left{
-    min-width: 80px;
+    min-width: 90px;
 }
 
 .ctrl-right{
@@ -137,4 +141,8 @@
 
 .win-key{
     min-width: 80px;
+}
+
+.a-right{
+    min-width: 88px;  
 }
