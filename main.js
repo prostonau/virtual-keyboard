@@ -29,6 +29,7 @@ class Keyboard {
     this.text = '';
     this.capsLock = false;
     this.shift = false;
+    this.key = null;
     this.elements = {
       main: null,
       keysContainer: null,
@@ -267,7 +268,7 @@ class Keyboard {
               newElem = this.convert(newElem);
             }
 
-            console.log('newElem', newElem);
+            // console.log('newElem', newElem);
             textContainer.value += newElem;
             keyElement.classList.toggle('active');
             setTimeout(() => { keyElement.classList.toggle('active'); }, '300');
@@ -313,244 +314,239 @@ class Keyboard {
       keys[i].setAttribute('upperCaseName', keys[i].innerText.toUpperCase());
     }
 
-    window.addEventListener('keydown', function(e) {
+    window.addEventListener('keydown', function (e) {
       // console.log('e',e)
       // console.log(' keys[i].getAttribute('keyname')', keys[0].getAttribute('keyname'))
 
       for (let i = 0; i < keys.length; i += 1) {
         if ((e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('lowerCaseName')) && !this.capsLock) {
           keys[i].classList.toggle('active');
-          console.log('');
+          // console.log('');
           textContainer.value += e.key.toLowerCase();
           break;
         }
         if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName')) {
           keys[i].classList.toggle('active');
-          console.log('e.key.toUpperCase() = ', e.key.toUpperCase());
+          // console.log('e.key.toUpperCase() = ', e.key.toUpperCase());
           textContainer.value += e.key.toUpperCase();
           break;
         }
-        if(e.code === 'Backspace') { //'Backspace'
-            console.log('tut')
-            console.log('backspaceKey',backspaceKey)
-            backspaceKey.classList.toggle('active'); 
-            textContainer.value = textContainer.value.substring(0, textContainer.value.length - 1); 
-            break;
+        if (e.code === 'Backspace') { // 'Backspace'
+          // console.log('backspaceKey', backspaceKey);
+          backspaceKey.classList.toggle('active');
+          textContainer.value = textContainer.value.substring(0, textContainer.value.length - 1);
+          break;
         }
-        if(e.code === 'Tab') { //'Backspace'
-            console.log('tab')
-            // console.log('keys[i]', keys[i])
-            tabKey.classList.toggle('active'); 
-            textContainer.value += '\t';
-            break;
+        if (e.code === 'Tab') {
+          // console.log('tab');
+          // console.log('keys[i]', keys[i])
+          tabKey.classList.toggle('active');
+          textContainer.value += '\t';
+          break;
         }
-        if(e.code === 'CapsLock') {
-            capslockKey.classList.toggle('active');
-            context.toggleCapsLock();    
-            break;              
+        if (e.code === 'CapsLock') {
+          capslockKey.classList.toggle('active');
+          context.toggleCapsLock();
+          break;
         }
-        if(e.code === 'Enter') { //'Backspace'
-            console.log('enter')
-            // console.log('keys[i]', keys[i])
-            enterKey.classList.toggle('active'); 
-            textContainer.value += '\t';
-            break;
+        if (e.code === 'Enter') {
+          // console.log('enter');
+          // console.log('keys[i]', keys[i])
+          enterKey.classList.toggle('active');
+          textContainer.value += '\t';
+          break;
         }
-        if(e.code === 'ShiftLeft' && !context.shift) {                    
-            shiftLeft.classList.toggle('active');
-            context.toggleShift ();  
-            console.log('tutttt')                  
-            break;              
+        if (e.code === 'ShiftLeft' && !context.shift) {
+          shiftLeft.classList.toggle('active');
+          context.toggleShift();
+          break;
         }
-        if(e.code === 'ShiftRight') {
-            shiftRight.classList.toggle('active');
-            break;              
+        if (e.code === 'ShiftRight') {
+          shiftRight.classList.toggle('active');
+          break;
         }
-        if(e.code === 'ControlLeft') {
-            ctrlLeft.classList.toggle('active');
-            break;              
+        if (e.code === 'ControlLeft') {
+          ctrlLeft.classList.toggle('active');
+          break;
         }
-        if(e.code === 'ControlRight') {
-            ctrlRight.classList.toggle('active');
-            break;              
+        if (e.code === 'ControlRight') {
+          ctrlRight.classList.toggle('active');
+          break;
         }
-        if(e.code === 'AltLeft') {
-            altLeft.classList.toggle('active');
-            break;              
+        if (e.code === 'AltLeft') {
+          altLeft.classList.toggle('active');
+          break;
         }
-        if(e.code === 'AltRight') {
-            altRight.classList.toggle('active');
-            break;              
+        if (e.code === 'AltRight') {
+          altRight.classList.toggle('active');
+          break;
         }
-        if(e.code === 'MetaLeft') {
-            win.classList.toggle('active');
-            break;              
+        if (e.code === 'MetaLeft') {
+          win.classList.toggle('active');
+          break;
         }
-        if(e.code === 'ArrowLeft') {                     
-            aLeft.classList.toggle('active')
-            textContainer.value += '◄';
-            break;
+        if (e.code === 'ArrowLeft') {
+          aLeft.classList.toggle('active');
+          textContainer.value += '◄';
+          break;
         }
-        if(e.code === 'ArrowRight') {                     
-            aRight.classList.toggle('active')
-            textContainer.value += '►';
-            break;
+        if (e.code === 'ArrowRight') {
+          aRight.classList.toggle('active');
+          textContainer.value += '►';
+          break;
         }
-        if(e.code === 'ArrowUp') {                     
-            aUp.classList.toggle('active')
-            textContainer.value += '▲';
-            break;
+        if (e.code === 'ArrowUp') {
+          aUp.classList.toggle('active');
+          textContainer.value += '▲';
+          break;
         }
-        if(e.code === 'ArrowDown') {                     
-            aDown.classList.toggle('active')
-            textContainer.value += '▼';
-            break;
+        if (e.code === 'ArrowDown') {
+          aDown.classList.toggle('active');
+          textContainer.value += '▼';
+          break;
         }
-        if(e.code === 'Space') {
-            spaceKey.classList.add('active')
-            textContainer.value += ' ';
-            break;
+        if (e.code === 'Space') {
+          spaceKey.classList.add('active');
+          textContainer.value += ' ';
+          break;
         }
-        
-
-        }
+      }
     });
 
-    window.addEventListener('keyup', function(e) {
-        for(let i = 0; i < keys.length; i += 1) {
-            if((e.key == keys[i].getAttribute('keyname' ) || e.key == keys[i].getAttribute('lowerCaseName')) && !this.capsLock) {
-                keys[i].classList.toggle('active')
-                    break;
-            }
-                if(e.key == keys[i].getAttribute('keyname') || e.key == keys[i].getAttribute('upperCaseName')) {
-                keys[i].classList.toggle('active')
-                break;  
-            }
-            if(e.code == 'Backspace') {                    
-                //backspaceKey.classList.toggle('active')
-                    if (backspaceKey.classList.contains('active'))  backspaceKey.classList.remove('active')   
-            }
-            if(e.code == 'Tab') { //'Backspace'                   
-                //tabKey.classList.toggle('active')
-                if (tabKey.classList.contains('active'))  tabKey.classList.remove('active') 
-                break;
-            }
-            if(e.code == 'Enter') { //'Backspace'
-                console.log('enter')
-                //enterKey.classList.toggle('active')
-                if (enterKey.classList.contains('active'))  enterKey.classList.remove('active')   
-                break;
-            }
-            if(e.code == 'ShiftLeft' && context.shift) {
-                //shiftLeft.classList.toggle('active');
-                if (shiftLeft.classList.contains('active'))  shiftLeft.classList.remove('active')
-                context.toggleShift ();
-                break;              
-            }
-            if(e.code == 'ShiftRight') {
-                //shiftLeft.classList.toggle('active');
-                if (shiftRight.classList.contains('active'))  shiftRight.classList.remove('active')   
-                break;              
-            }
-            if(e.code == 'ControlLeft') {
-                //shiftLeft.classList.toggle('active');
-                if (ctrlLeft.classList.contains('active'))  ctrlLeft.classList.remove('active')   
-                break;              
-            }
-            if(e.code == 'ControlRight') {
-                //shiftLeft.classList.toggle('active');
-                if (ctrlRight.classList.contains('active'))  ctrlRight.classList.remove('active')   
-                break;              
-            }
-            if(e.code == 'AltLeft') {
-                //shiftLeft.classList.toggle('active');
-                if (altLeft.classList.contains('active'))  altLeft.classList.remove('active')   
-                break;              
-            }
-            if(e.code == 'AltRight') {
-                //shiftLeft.classList.toggle('active');
-                if (altRight.classList.contains('active'))  altRight.classList.remove('active')   
-                break;              
-            }
-            if(e.code == 'MetaLeft') {
-                if (win.classList.contains('active'))  win.classList.remove('active')   
-                break;              
-            }
-            if(e.code == 'ArrowLeft') {                     
-                aLeft.classList.toggle('active')                   
-                break;
-            }
-            if(e.code == 'ArrowRight') {                     
-                aRight.classList.toggle('active')
-                break;
-            }
-            if(e.code == 'ArrowUp') {                     
-                aUp.classList.toggle('active')               
-                break;
-            }
-            if(e.code == 'ArrowDown') {                     
-                aDown.classList.toggle('active')
-                break;
-            }   
-            if(e.code == 'Space') {
-                if (spaceKey.classList.contains('active'))  spaceKey.classList.remove('active')   
-                break;   
-            }        
+    window.addEventListener('keyup', (e) => {
+      for (let i = 0; i < keys.length; i += 1) {
+        if ((e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('lowerCaseName')) && !this.capsLock) {
+          keys[i].classList.toggle('active');
+          break;
         }
-    })
-    }  
-
-    toggleCapsLock (){
-        this.capsLock = !this.capsLock;
-
-        for (const key of this.elements.keys) {
-            if (key.childElementCount === 0) {
-                if (this.capsLock && key.textContent.length == 1 ) {
-                    key.textContent = key.textContent.toUpperCase()
-                }
-                else {
-                    key.textContent = key.textContent.toLowerCase();
-                }              
-            }
+        if (e.key === keys[i].getAttribute('keyname') || e.key === keys[i].getAttribute('upperCaseName')) {
+          keys[i].classList.toggle('active');
+          break;
         }
+        if (e.code === 'Backspace') {
+          // backspaceKey.classList.toggle('active')
+          if (backspaceKey.classList.contains('active')) backspaceKey.classList.remove('active');
+        }
+        if (e.code === 'Tab') { // 'Backspace'
+          // tabKey.classList.toggle('active')
+          if (tabKey.classList.contains('active')) tabKey.classList.remove('active');
+          break;
+        }
+        if (e.code === 'Enter') { // 'Backspace'
+          // console.log('enter');
+          // enterKey.classList.toggle('active')
+          if (enterKey.classList.contains('active')) enterKey.classList.remove('active');
+          break;
+        }
+        if (e.code === 'ShiftLeft' && context.shift) {
+          // shiftLeft.classList.toggle('active');
+          if (shiftLeft.classList.contains('active')) shiftLeft.classList.remove('active');
+          context.toggleShift();
+          break;
+        }
+        if (e.code === 'ShiftRight') {
+          // shiftLeft.classList.toggle('active');
+          if (shiftRight.classList.contains('active')) shiftRight.classList.remove('active');
+          break;
+        }
+        if (e.code === 'ControlLeft') {
+          // shiftLeft.classList.toggle('active');
+          if (ctrlLeft.classList.contains('active')) ctrlLeft.classList.remove('active');
+          break;
+        }
+        if (e.code === 'ControlRight') {
+          // shiftLeft.classList.toggle('active');
+          if (ctrlRight.classList.contains('active')) ctrlRight.classList.remove('active');
+          break;
+        }
+        if (e.code === 'AltLeft') {
+          // shiftLeft.classList.toggle('active');
+          if (altLeft.classList.contains('active')) altLeft.classList.remove('active');
+          break;
+        }
+        if (e.code === 'AltRight') {
+          // shiftLeft.classList.toggle('active');
+          if (altRight.classList.contains('active')) altRight.classList.remove('active');
+          break;
+        }
+        if (e.code === 'MetaLeft') {
+          if (win.classList.contains('active')) win.classList.remove('active');
+          break;
+        }
+        if (e.code === 'ArrowLeft') {
+          aLeft.classList.toggle('active');
+          break;
+        }
+        if (e.code === 'ArrowRight') {
+          aRight.classList.toggle('active');
+          break;
+        }
+        if (e.code === 'ArrowUp') {
+          aUp.classList.toggle('active');
+          break;
+        }
+        if (e.code === 'ArrowDown') {
+          aDown.classList.toggle('active');
+          break;
+        }
+        if (e.code === 'Space') {
+          if (spaceKey.classList.contains('active')) spaceKey.classList.remove('active');
+          break;
+        }
+      }
+    });
+  }
+
+  toggleCapsLock() {
+    this.capsLock = !this.capsLock;
+    /* eslint-disable-next-line */
+    for (const key of this.elements.keys) {
+      if (key.childElementCount === 0) {
+        if (this.capsLock && key.textContent.length === 1) {
+          key.textContent = key.textContent.toUpperCase();
+        } else {
+          key.textContent = key.textContent.toLowerCase();
+        }
+      }
     }
+  }
 
-    toggleShift (){
-        this.shift = !this.shift;
+  convert(key) {
+    this.key = key;
+    // console.log('key',key)
+    let temp = key;
+    if (temp === '`') { temp = '~'; }
+    if (temp === '1') { temp = '!'; }
 
-        for (const key of this.elements.keys) {           
-                if (this.shift && key.textContent.length == 1 ) {
-                    key.textContent = key.textContent.toUpperCase()
-                }
-                else {
-                    key.textContent = key.textContent.toLowerCase();
-                }
-        }
+    return temp;
+  }
 
-        for (const key of this.elements.keys) {
-           
-               //console.log('key.textContent,key',key.textContent)
-               if (key.textContent == '`') {key.textContent = '~';}
-               else if (key.textContent == '~') {key.textContent = '`';}
-
-               if (key.textContent == '1') {key.textContent = '!';}
-               else if (key.textContent == '!') {key.textContent = '1';}
-         
-        }
+  toggleShift() {
+    this.shift = !this.shift;
+    /* eslint-disable-next-line */
+    for (const key of this.elements.keys) {           
+      if (this.shift && key.textContent.length === 1) {
+        key.textContent = key.textContent.toUpperCase();
+      } else {
+        key.textContent = key.textContent.toLowerCase();
+      }
     }
+    /* eslint-disable-next-line */
+    for (const key of this.elements.keys) {        
+      // console.log('key.textContent,key',key.textContent)
+      if (key.textContent === '`') {
+        key.textContent = '~';
+      } else if (key.textContent === '~') { key.textContent = '`'; }
 
-    convert (key){
-            //console.log('key',key)
-            if (key == '`') {key = '~';}
-            if (key == '1') {key = '!';}
-               
-            return key
+      if (key.textContent === '1') {
+        key.textContent = '!';
+      } else if (key.textContent === '!') { key.textContent = '1'; }
     }
+  }
 }
 
-
-window.addEventListener('DOMContentLoaded', function () {    
-  let virtualKeyboard = new Keyboard
-  virtualKeyboard.init()
-  virtualKeyboard.listenKeys()
+window.addEventListener('DOMContentLoaded', () => {
+  const virtualKeyboard = new Keyboard();
+  virtualKeyboard.init();
+  virtualKeyboard.listenKeys();
 });
